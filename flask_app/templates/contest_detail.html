@@ -15,39 +15,70 @@
 <body>
     <div class="container p-3">
         <div class="header d-flex justify-content-between align-items-center">
-            <h1>Contested</h1>
-            <a href="/logout" class="btn btn-primary">Logout</a>
+            <div class="col-9">
+                <h1>Contested</h1>
+            </div>
+            <div class="col-3">
+                <a href="/dashboard" class="btn btn-primary">All Contests</a>
+                <a href="/logout" class="btn btn-primary">Logout</a>
+            </div>
         </div>
-
-        <h1>Contest Detail: {{contest.name}}</h1>
-
-        <div class="col-9" id="contest-table-div" style="display: none;">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Entry Name</th>
-                        <th>By</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for entry in contest %}
-                        <!-- {% print(entry.name) %} -->
+        <div class="page-header">
+            <h1>Contest Detail: {{contest.name}}</h1>
+            {% if session["user_id"] == contest.user_id %}
+            <a class="btn btn-danger" href="/contests/{{contest.id}}/delete">Delete Contest</a>
+            {% endif %}
+        </div>
+        <div class="d-flex">
+            <div class="col-9 p-2" id="contest-table-div">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Entry Name</th>
+                            <th>By</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in items %}
                         <tr>
                             <td>{{entry.name}}</td>
                             <td>{{entry.first_name}}</td>
                             <td>
                                 {% if session["user_id"] == entry.user_id %}
-                                    <a href="">Delete</a>
+                                <a href="/contests/{{contest.id}}/items/{{entry.id}}/delete">Delete</a>
                                 {% endif %}
                             </td>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-3 p-2 border">
+                <h2>Add Entry</h2>
+                {% with messages = get_flashed_messages(category_filter=["item"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="error">{{message}}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <form action="/contests/{{contest.id}}/items/new" method="post">
+                    <label for="item_name" class="form-label">Entry Name:</label>
+                    <input type="text" name="item_name" class="form-control" value={{session.item_name}}>
+                    <label for="item_description" class="form-label">Description:</label>
+                    <input type="text" class="form-control" name="item_description" value={{session.item_description}}>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            </div>
         </div>
-
     </div>
+
+    <script>
+    function myFunction() {
+        confirm("Careful, you're about to delete this contest. Are you sure?");
+    }
+    </script>
 </body>
 
 </html>

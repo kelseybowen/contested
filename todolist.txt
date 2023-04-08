@@ -1,0 +1,3 @@
+TO DO:
+
+1. validations - when adding a new item, validations work, but session only stores first word

@@ -12,6 +12,7 @@ class Item:
         self.updated_at = data['updated_at']
         self.user_id = data['user_id']
         self.contest_id = data['contest_id']
+        # self.first_name = ""
         
     @classmethod
     def get_all_items(cls):
@@ -32,7 +33,8 @@ class Item:
         result = connectToMySQL(cls.db).query_db(query, data)
         items = []
         for entry in result:
-            items.append(cls(entry))
+            items.append(entry)
+        # print(f"items ===== {items}")
         return items
     
     @classmethod
@@ -65,3 +67,14 @@ class Item:
         }
         result = connectToMySQL(cls.db).query_db(query, data)
         return result
+    
+    @staticmethod
+    def validate_item(data):
+        item_valid = True
+        if len(data['name']) < 3:
+            flash("Entry Name must be at least 3 characters", 'item')
+            item_valid = False
+        if not data['description']:
+            flash("Description is required", 'item')
+            item_valid = False
+        return item_valid

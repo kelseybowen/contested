@@ -29,13 +29,13 @@ def save_contest():
             "user_id": session["user_id"]
         }
         if not contest.Contest.validate_contest(data):
-            session["name"] = data["name"]
-            session["description"] = data["description"]
+            session["contest_name"] = data["name"]
+            session["contest_description"] = data["description"]
             return redirect("/contests/new")
         else:
             contest.Contest.save_contest(data)
-            session["name"] = ""
-            session["description"] = ""
+            session["contest_name"] = ""
+            session["contest_description"] = ""
             return redirect("/dashboard")
     else:
         return redirect('/')
@@ -52,6 +52,10 @@ def save_contest():
 # @app.route('/contests/<int:contest_id>')
 # def edit_contest(contest_id):
 #     pass
+
+# @app.route('/contests/<int:contest_id>/show')
+# def render_contest():
+#     document.getElementByID
     
 @app.route('/contests/<int:contest_id>/update', methods=["PUT"])
 def update_contest():
@@ -74,4 +78,11 @@ def update_contest():
         return redirect('/')
 
 
-# @app.route('/contests/<int:contest_id>/delete', methods=["DELETE"])
+@app.route('/contests/<int:contest_id>/delete')
+def delete_contest(contest_id):
+    if "user_id" in session:
+        # one_contest = contest.Contest.get_one_contest(contest_id)
+        contest.Contest.delete_contest(contest_id)
+        return redirect('/dashboard')
+    else:
+        return redirect('/')
