@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/script.js"></script>
+    <title>Contested</title>
+</head>
+
+<body>
+    <div class="container p-3">
+        <div class="header d-flex justify-content-between align-items-center">
+            <h1>Contested</h1>
+            <a href="/logout" class="btn btn-primary">Logout</a>
+        </div>
+
+        <h1>Contest Detail: {{contest.name}}</h1>
+
+        <div class="col-9" id="contest-table-div" style="display: none;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Entry Name</th>
+                        <th>By</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in contest %}
+                        <!-- {% print(entry.name) %} -->
+                        <tr>
+                            <td>{{entry.name}}</td>
+                            <td>{{entry.first_name}}</td>
+                            <td>
+                                {% if session["user_id"] == entry.user_id %}
+                                    <a href="">Delete</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+
+</html>
