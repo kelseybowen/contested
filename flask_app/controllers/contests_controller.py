@@ -40,6 +40,13 @@ def save_contest():
     else:
         return redirect('/')
 
+@app.route('/contests/<int:contest_id>/edit')
+def edit_contest(contest_id):
+    if "user_id" in session:
+        return render_template("edit_contest.html", contest=contest.Contest.get_one_contest(contest_id))
+    else:
+        return redirect("/")
+
 # @app.route('/contests/<int:contest_id>')
 # def contest_detail(contest_id):
 #     if "user_id" in session:
@@ -48,31 +55,27 @@ def save_contest():
 #         return render_template("contest_detail.html", one_contest=one_contest)
 #     else:
 #         return redirect("/")
-    
-# @app.route('/contests/<int:contest_id>')
-# def edit_contest(contest_id):
-#     pass
 
 # @app.route('/contests/<int:contest_id>/show')
 # def render_contest():
 #     document.getElementByID
     
-@app.route('/contests/<int:contest_id>/update', methods=["PUT"])
-def update_contest():
+@app.route('/contests/<int:contest_id>/update', methods=["POST"])
+def update_contest(contest_id):
     if "user_id" in session:
         data = {
             "name": request.form["name"],
             "description": request.form["description"],
-            "user_id": session["user_id"]
+            "id": contest_id
         }
         if not contest.Contest.validate_contest(data):
-            session["name"] = data["name"]
-            session["description"] = data["description"]
-            return redirect("/contests/new")
+            session["contest_name"] = data["name"]
+            session["contest_description"] = data["description"]
+            return redirect(f"/contests/{contest_id}/edit")
         else:
             contest.Contest.update_contest(data)
-            session["name"] = ""
-            session["description"] = ""
+            session["contest_name"] = ""
+            session["contest_description"] = ""
             return redirect("/dashboard")
     else:
         return redirect('/')

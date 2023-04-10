@@ -25,7 +25,9 @@
         </div>
         <div class="page-header">
             <h1>Contest Detail: {{contest.name}}</h1>
+            <p>{{contest.description}}</p>
             {% if session["user_id"] == contest.user_id %}
+            <a class="btn btn-primary" href="/contests/{{contest.id}}/edit">Edit Contest</a>
             <a class="btn btn-danger" href="/contests/{{contest.id}}/delete">Delete Contest</a>
             {% endif %}
         </div>
@@ -46,7 +48,13 @@
                             <td>{{entry.first_name}}</td>
                             <td>
                                 {% if session["user_id"] == entry.user_id %}
+                                <a href="/contests/{{contest.id}}/items/{{entry.id}}">Edit</a>
                                 <a href="/contests/{{contest.id}}/items/{{entry.id}}/delete">Delete</a>
+                                {% else %}
+                                <form action="/contests/{{contest.id}}/items/{{entry.id}}/rate" method="post">
+                                    <input type="number" name="score" id="">
+                                    <button class="btn btn-primary">Rate</button>
+                                </form>
                                 {% endif %}
                             </td>
                         </tr>

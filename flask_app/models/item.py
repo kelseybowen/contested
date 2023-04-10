@@ -12,7 +12,6 @@ class Item:
         self.updated_at = data['updated_at']
         self.user_id = data['user_id']
         self.contest_id = data['contest_id']
-        # self.first_name = ""
         
     @classmethod
     def get_all_items(cls):
@@ -21,7 +20,6 @@ class Item:
         items = []
         for item in results:
             items.append(item)
-        print(f"PRINTING FROM ITEM.PY = {items}")
         return items
         
     @classmethod
@@ -34,7 +32,6 @@ class Item:
         items = []
         for entry in result:
             items.append(entry)
-        # print(f"items ===== {items}")
         return items
     
     @classmethod
