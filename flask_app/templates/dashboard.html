@@ -19,70 +19,20 @@
             <a href="/logout" class="btn btn-primary">Logout</a>
         </div>
         <div class="main d-flex">
-            <div class="col-3 p-2">
+            <div class="col-4 p-2">
                 <h1>All Contests</h1>
                 <div class="list-group">
                     {% for contest in all_contests %}
                     <a id={{contest.id}} href="/contests/{{contest.id}}/items" class="list-group-item list-group-item-action">{{ contest.name }}</a>
-                    <!-- <a id={{contest.id}} href="/contests/{{contest.id}}/items" onclick="display_contest_data()" class="list-group-item list-group-item-action">{{ contest.name }}</a> -->
                     {% endfor %}
                 </div>
                 <a class="btn btn-primary" href="/contests/new">Add Contest</a>
             </div>
-            <div class="col-9" id="contest-table-div" style="display: none;">
-                <h1>Test</h1>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Entry Name</th>
-                            <th>By</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for entry in items %}
-                        <tr>
-                            <td>{{entry.name}}</td>
-                            <td>{{entry.first_name}}</td>
-                            <td>
-                                {% if session["user_id"] == entry.user_id %}
-                                <a href="/contests/{{contest.id}}/items/{{entry.id}}/delete">Delete</a>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <!-- <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Entry Name</th>
-                            <th>By</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                    </tbody>
-                </table> -->
-
-            </div>
         </div>
 
     </div>
-    <script>
-        function display_contest_data() {
-            <!-- var set_contest_view =  -->
-            var div = document.getElementById('contest-table-div');
-            div.removeAttribute('style')
-        }
-    </script>
+
 </body>
 
 </html>
 
-<!-- onclick="revealContestTable(this.id)" -->

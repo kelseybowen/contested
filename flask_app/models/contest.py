@@ -12,6 +12,7 @@ class Contest:
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.user_id = data['user_id']
+        self.isOpen = data['isOpen']
     
     @classmethod
     def get_all_contests(cls):
@@ -22,10 +23,9 @@ class Contest:
             contests.append(cls(contest))
         return contests
     
-    @classmethod            # basic contest info
+    @classmethod
     def get_one_contest(cls, data):
-        # query = "SELECT * FROM contests JOIN users ON contests.user_id = users.id WHERE contests.id = %(id)s;" 
-        query = "SELECT * FROM contests WHERE id=%(id)s;"
+        query = "SELECT * FROM contests JOIN users ON users.id = contests.user_id WHERE contests.id=%(id)s;"
         data = {
             "id": data
         }
@@ -42,6 +42,13 @@ class Contest:
     def update_contest(cls,data):
         query = "UPDATE contests SET name=%(name)s, description=%(description)s, updated_at=NOW() WHERE id=%(id)s;"
         result = connectToMySQL(cls.db).query_db(query, data)
+        return result
+    
+    @classmethod
+    def change_contest_status(cls, data):
+        query = "UPDATE contests SET isOpen=%(isOpen)s, updated_at=NOW() WHERE id=%(id)s;"
+        result = connectToMySQL(cls.db).query_db(query, data)
+        print(result)
         return result
     
     @classmethod

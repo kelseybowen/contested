@@ -1,6 +1,7 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from flask_app import app
-from flask import flash
+from flask import flash, session
+import statistics
 
 class Item:
     db = "ratings_db"
@@ -10,7 +11,7 @@ class Item:
         self.description = data['description']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
-        self.user_id = data['user_id']
+        self.owner_id = data['owner_id']
         self.contest_id = data['contest_id']
         
     @classmethod
@@ -24,15 +25,19 @@ class Item:
         
     @classmethod
     def get_all_items_in_single_contest(cls, data):
-        query = "SELECT * FROM items JOIN users ON users.id = items.user_id WHERE contest_id = %(contest_id)s;"
+        query = "SELECT * FROM items AS i LEFT JOIN (SELECT * FROM ratings WHERE ratings.user_id = %(user_id)s) AS r ON i.id = r.item_id JOIN users AS u ON u.id = i.owner_id WHERE contest_id = %(contest_id)s;"
         data = {
-            "contest_id": data
+            "contest_id": data,
+            "user_id": session["user_id"]
         }
         result = connectToMySQL(cls.db).query_db(query, data)
         items = []
-        for entry in result:
-            items.append(entry)
-        return items
+        if result:
+            for entry in result:
+                items.append(entry)
+            return items
+        else:
+            pass
     
     @classmethod
     def get_one_item(cls, data):
@@ -45,8 +50,21 @@ class Item:
         return cls(result[0])
     
     @classmethod
+    def get_average_rating_for_item(cls, data):
+        query = "SELECT * FROM ratings JOIN items ON items.id = ratings.item_id WHERE contest_id = %(contest_id)s AND item_id = %(item_id)s;"
+        result = connectToMySQL(cls.db).query_db(query, data)
+        scores = []
+        for item in result:
+            scores.append(item["score"])
+        if len(scores) < 1:
+            return -1
+        else:
+            return statistics.mean(scores)
+        
+    
+    @classmethod
     def save_item(cls, data):
-        query = "INSERT INTO items (name, description, created_at, updated_at, user_id, contest_id) VALUES (%(name)s, %(description)s, NOW(), NOW(), %(user_id)s, %(contest_id)s);"
+        query = "INSERT INTO items (name, description, created_at, updated_at, owner_id, contest_id) VALUES (%(name)s, %(description)s, NOW(), NOW(), %(owner_id)s, %(contest_id)s);"
         result = connectToMySQL(cls.db).query_db(query, data)
         return result
     

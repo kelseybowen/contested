@@ -15,7 +15,7 @@
 <body>
     <div class="container p-3">
         <div class="header d-flex justify-content-between align-items-center">
-            <div class="col-9">
+            <div class="col-9 d-flex">
                 <h1>Contested</h1>
             </div>
             <div class="col-3">
@@ -24,11 +24,12 @@
             </div>
         </div>
         <div class="page-header">
-            <h1>Contest Detail: {{contest.name}}</h1>
+            <h1>{{contest.name}}</h1>
+            <h5>Hosted By: {{contest.first_name}}</h5>
             <p>{{contest.description}}</p>
-            {% if session["user_id"] == contest.user_id %}
+            {% if session["user_id"] == contest.user_id and contest.isOpen %}
             <a class="btn btn-primary" href="/contests/{{contest.id}}/edit">Edit Contest</a>
-            <a class="btn btn-danger" href="/contests/{{contest.id}}/delete">Delete Contest</a>
+            <a class="btn btn-danger" href="/contests/{{contest.id}}/close">Close Contest</a>
             {% endif %}
         </div>
         <div class="d-flex">
@@ -38,6 +39,7 @@
                         <tr>
                             <th>Entry Name</th>
                             <th>By</th>
+                            <th>Your Rating</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -46,47 +48,65 @@
                         <tr>
                             <td>{{entry.name}}</td>
                             <td>{{entry.first_name}}</td>
+                            {% if session["user_id"] == entry.owner_id %}
+                            <td></td>
                             <td>
-                                {% if session["user_id"] == entry.user_id %}
-                                <a href="/contests/{{contest.id}}/items/{{entry.id}}">Edit</a>
-                                <a href="/contests/{{contest.id}}/items/{{entry.id}}/delete">Delete</a>
-                                {% else %}
+                                <a href="/contests/{{contest.id}}/items/{{entry.id}}"
+                                    class="btn btn-outline-primary">Edit</a>
+                                <a href="/contests/{{contest.id}}/items/{{entry.id}}/delete"
+                                    class="btn btn-outline-danger">Delete</a>
+                            </td>
+
+                            {% else %}
+                            <td>
+                                {% with messages = get_flashed_messages(category_filter=["rating"]) %}
+                                {% if messages %}
+                                {% for message in messages %}
+                                <p class="error">{{message}}</p>
+                                {% endfor %}
+                                {% endif %}
+                                {% endwith %}
                                 <form action="/contests/{{contest.id}}/items/{{entry.id}}/rate" method="post">
-                                    <input type="number" name="score" id="">
+                                    <input type="number" name="score" id="" value="{{entry.score}}"
+                                        style="width: 60px;">
+                                    {% if entry.score == None %}
                                     <button class="btn btn-primary">Rate</button>
+                                    {% endif %}
                                 </form>
+                            </td>
+                            <td>
+                                {% if entry.score != None %}
+                                <a href="/contests/{{contest.id}}/items/{{entry.id}}/{{entry['r.id']}}/delete"
+                                    class="btn btn-outline-danger">Delete Rating</a>
                                 {% endif %}
                             </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
+            {% if contest.isOpen %}
             <div class="col-3 p-2 border">
                 <h2>Add Entry</h2>
                 {% with messages = get_flashed_messages(category_filter=["item"]) %}
-                    {% if messages %}
-                        {% for message in messages %}
-                            <p class="error">{{message}}</p>
-                        {% endfor %}
-                    {% endif %}
+                {% if messages %}
+                {% for message in messages %}
+                <p class="error">{{message}}</p>
+                {% endfor %}
+                {% endif %}
                 {% endwith %}
                 <form action="/contests/{{contest.id}}/items/new" method="post">
                     <label for="item_name" class="form-label">Entry Name:</label>
-                    <input type="text" name="item_name" class="form-control" value={{session.item_name}}>
+                    <input type="text" name="item_name" class="form-control" value="{{session.item_name}}">
                     <label for="item_description" class="form-label">Description:</label>
-                    <input type="text" class="form-control" name="item_description" value={{session.item_description}}>
+                    <input type="text" class="form-control" name="item_description" value="{{session.item_description}}">
                     <button class="btn btn-primary">Submit</button>
                 </form>
             </div>
+            {% endif %}
         </div>
     </div>
-
-    <script>
-    function myFunction() {
-        confirm("Careful, you're about to delete this contest. Are you sure?");
-    }
-    </script>
 </body>
 
 </html>

@@ -12,32 +12,22 @@ class Rating:
         self.user_id = data['user_id']
         self.item_id = data['item_id']
     
-    # @classmethod
-    # def get_ratings_for_one_item(cls, data):
-    #     # query = ""
-    #     results = connectToMySQL(cls.db).query_db(query, data)
-    #     ratings = []
-    #     for item in results:
-    #         ratings.append(item)
-    #     return ratings
-    
     @classmethod
     def get_user_rating_for_item(cls, data):
         query = "SELECT * FROM ratings WHERE user_id = %(user_id)s AND item_id = %(item_id)s;"
-        # data = {
-        #     "user_id": data["user_id"],
-        #     "item_id": data["item_id"]
-        # }
         result = connectToMySQL(cls.db).query_db(query, data)
-        return result
+        print(f"RESULT FROM RATING.PY = {result}")
+        if result:
+            return result[0]
+        else:
+            return None
     
     @classmethod
     def get_all_user_ratings_for_contest(cls, data):
         query = "SELECT * FROM ratings JOIN items ON items.id = ratings.item_id WHERE ratings.user_id = %(user_id)s AND items.contest_id = %(contest_id)s;"
-        # data = {
-        #     "user_id": data,
-        #     "contest_id": data
-        # }
+        results = connectToMySQL(cls.db).query_db(query, data)
+        return results
+            
     
     @classmethod
     def save_rating(cls, data):
@@ -50,3 +40,21 @@ class Rating:
         query = "UPDATE ratings SET score=%(score)s, updated_at=NOW() WHERE id=%(id)s;"
         result = connectToMySQL(cls.db).query_db(query, data)
         return result
+    
+    @classmethod
+    def delete_rating(cls, data):
+        query = "DELETE FROM ratings WHERE id=%(id)s;"
+        data = {
+            "id": data
+        }
+        print(data)
+        result = connectToMySQL(cls.db).query_db(query, data)
+        return result
+    
+    @staticmethod
+    def validate_rating(data):
+        rating_valid = True
+        if not (1 <= int(data) <= 10):
+            flash("Rating must be between 1 and 10", 'rating')
+            rating_valid = False
+        return rating_valid
