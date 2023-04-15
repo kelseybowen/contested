@@ -1,4 +1,157 @@
-* {
-    border: 1px black solid;
+:root {
+    --yellow: rgb(253,254,0);
+    --pink: #e323bf;
+    --teal: rgb(9,216,242);
+    --purple: rgb(114,35,223);
 }
 
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ------ INDEX ------- */
+
+body {
+    background-image: url("../images/confetti.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.main-content {
+    justify-content: center;
+    padding: 30px;
+}
+
+.index-outer-container {
+    background-color: rgba(9,216,242, 0.8);
+    margin: 10px;
+    color: white;
+}
+
+.left-index {
+    border-radius: 210px;
+    border: var(--teal) 6px solid;
+    width: 420px;
+    height: 420px;
+    padding: 20px;
+}
+
+.right-index {
+    border-radius: 70px;
+    border: var(--teal) 6px solid;
+    height: 250px;
+    width: 250px;
+    padding: 10px;
+}
+
+.index-inner-container {
+    color: white;
+}
+
+.reg-form {
+    text-align: center;
+}
+
+.login-form {
+    text-align: center;
+}
+
+.reg-btn, .login-btn, .btn {
+    background-color: var(--pink);
+    color: white;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.error {
+    color: var(--pink);
+    text-align: center;
+}
+
+/* ------ DASHBOARD ------- */
+
+.dashboard-component {
+    background-color: #363537cc;
+    margin: 20px;
+    padding: 20px;
+    border: 3px white solid;
+    border-radius: 20px;
+}
+
+h1 {
+    color: white;
+}
+
+.logout-btn {
+    background-color: var(--pink);
+    border: white 3px solid;
+}
+
+.list-group-item {
+    background-color: var(--pink);
+    color: white;
+}
+
+.add-contest-label {
+    color: white;
+}
+
+p.no_entries {
+    color: black;
+}
+
+.add-edit-entry-btn {
+    width: 100px;
+}
+
+/* ---- CONTEST DETAIL, RESULTS ----- */
+
+.cd-header, .result-header {
+    margin: 20px 0px 0px 0px;
+    color: white;
+}
+
+.cd-header-content, .result-header-content {
+    padding: 10px 0px 20px 50px;
+}
+
+.main-contest-detail, .main-result  {
+    background-color: #363537cc;
+    border-radius: 20px;
+    border: white 5px solid;
+}
+
+.btn-nav {
+    background-color: white;
+    color: var(--pink);
+    margin: 0px 2px;
+}
+
+.btn-edit {
+    background-color: var(--teal);
+}
+
+.btn-submit {
+    background-color: white;
+    color: var(--pink);
+    border: var(--pink) 2px solid;
+}
+
+.add-entry {
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px;
+    color: var(--pink);
+    max-height: 400px;
+}
+
+.edit-contest, .edit-entry {
+    border: white 2px solid;
+    border-radius: 10px;
+}
+
+.contest-table-div {
+    background-color: white;
+    padding: 20px;
+    margin: 20px;
+}

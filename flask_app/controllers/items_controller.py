@@ -1,7 +1,6 @@
 from flask_app import app
-from flask import render_template, request, redirect, session, flash
-from flask_app.models import item, contest, rating
-from flask_app.controllers import users_controller, contests_controller, ratings_controller
+from flask import render_template, request, redirect, session
+from flask_app.models import item, contest
 import math
 
 @app.route('/contests/<int:contest_id>/items')
@@ -51,8 +50,9 @@ def add_item_to_contest(contest_id):
 def edit_item(contest_id, id):
     if "user_id" in session:
         item1 = item.Item.get_one_item(id)
-        print(item1)
-        return render_template("edit_item.html", item=item1)
+        contest_info = contest.Contest.get_one_contest(contest_id)
+        contest_items = item.Item.get_all_items_in_single_contest(contest_id)
+        return render_template("edit_item.html", edit_item=item1, contest=contest_info, items=contest_items)    
     else:
         return redirect("/")
 

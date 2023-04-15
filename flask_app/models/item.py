@@ -46,7 +46,6 @@ class Item:
             "id": data
         }
         result = connectToMySQL(cls.db).query_db(query, data)
-        print(result)
         return cls(result[0])
     
     @classmethod

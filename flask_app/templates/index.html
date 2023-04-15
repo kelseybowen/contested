@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,76 +10,80 @@
     <link rel="stylesheet" href="../static/css/style.css">
     <title>Contested</title>
 </head>
-<body>
+
+<body id="index-body">
     <div class="container mx-auto">
-
-        <div class="index-header">
-            <h1>Contested</h1>
+        <div class="text-center mt-5">
+            <img src="../static/images/Contested-Logo.png" alt="logo" width="800px" class="img-fluid">
         </div>
-
         <div class="main-content d-flex">
-            <div class="left-container">
-                <h1>Register</h1>
-                {% with messages = get_flashed_messages(category_filter=["registration"]) %}
-                    {% if messages %}
+            <div class="index-outer-container left-index">
+                <div class="index-inner-container">
+                    <form action="/register" method="post" class="reg-form">
+                        <h1>Register</h1>
+                        {% with messages = get_flashed_messages(category_filter=["registration"]) %}
+                        {% if messages %}
                         {% for message in messages %}
-                            <p class="error">{{message}}</p>
+                        <p class="error">{{message}}</p>
                         {% endfor %}
-                    {% endif %}
-                {% endwith %}
-                <form action="/register" method="post">
-                    <div class="form-inputs">
-                        <label for="first_name">First Name:</label>
-                        <br>
-                        <input type="text" name="first_name" required value="{{session['first_name']}}">
-                    </div>
-                    <div class="form-inputs">
-                        <label for="last_name">Last Name:</label>
-                        <br>
-                        <input type="text" name="last_name" required value="{{session['last_name']}}">
-                    </div>
-                    <div class="form-inputs">
-                        <label for="r_email">Email:</label>
-                        <br>
-                        <input type="text" name="r_email" required value="{{session['email']}}">
-                    </div>
-                    <div class="form-inputs">
-                        <label for="r_password">Password:</label>
-                        <br>
-                        <input type="password" name="r_password" required>
-                    </div>
-                    <div class="form-inputs">
-                        <label for="confirm_password">Confirm Password:</label>
-                        <br>
-                        <input type="password" name="confirm_password" required>
-                    </div>
-                    <button class="btn btn-primary">Register</button>
-                </form>
+                        {% endif %}
+                        {% endwith %}
+                        <div class="form-inputs">
+                            <label for="first_name">First Name</label>
+                            <br>
+                            <input type="text" name="first_name" required value="{{session['first_name']}}">
+                        </div>
+                        <div class="form-inputs">
+                            <label for="last_name">Last Name</label>
+                            <br>
+                            <input type="text" name="last_name" required value="{{session['last_name']}}">
+                        </div>
+                        <div class="form-inputs">
+                            <label for="r_email">Email</label>
+                            <br>
+                            <input type="text" name="r_email" required value="{{session['email']}}">
+                        </div>
+                        <div class="form-inputs">
+                            <label for="r_password">Password</label>
+                            <br>
+                            <input type="password" name="r_password" required>
+                        </div>
+                        <div class="form-inputs">
+                            <label for="confirm_password">Confirm Password</label>
+                            <br>
+                            <input type="password" name="confirm_password" required>
+                        </div>
+                        <button class="btn reg-btn">Register</button>
+                    </form>
+                </div>
             </div>
-            <div class="right-container">
-                <h1>Login</h1>
-                {% with messages = get_flashed_messages(category_filter=["login"]) %}
-                    {% if messages %}
+            <div class="index-outer-container right-index">
+                <div class="index-inner-container">
+                    <form action="/login" method="post" class="login-form">
+                        <h1>Login</h1>
+                        {% with messages = get_flashed_messages(category_filter=["login"]) %}
+                        {% if messages %}
                         {% for message in messages %}
-                            <p class="error">{{message}}</p>
+                        <p class="error">{{message}}</p>
                         {% endfor %}
-                    {% endif %}
-                {% endwith %}
-                <form action="/login" method="post">
-                    <div class="form-inputs">
-                        <label for="l_email">Email:</label>
-                        <br>
-                        <input type="text" name="l_email" required>
-                    </div>
-                    <div class="form-inputs">
-                        <label for="l_password">Password:</label>
-                        <br>
-                        <input type="password" name="l_password" required>
-                    </div>
-                    <button class="btn btn-primary">Login</button>
-                </form>
+                        {% endif %}
+                        {% endwith %}
+                        <div class="form-inputs">
+                            <label for="l_email">Email</label>
+                            <br>
+                            <input type="text" name="l_email" required>
+                        </div>
+                        <div class="form-inputs">
+                            <label for="l_password">Password</label>
+                            <br>
+                            <input type="password" name="l_password" required>
+                        </div>
+                        <button class="btn login-btn">Login</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>

@@ -7,55 +7,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <script src="../static/js/script.js"></script>
+    <link rel="stylesheet" href="../../static/css/style.css">
     <title>Contested</title>
 </head>
 
 <body>
     <div class="container p-3">
-        <div class="header d-flex justify-content-between align-items-center">
-            <div class="col-9 d-flex">
-                <h1>Contested</h1>
+        <div class="result-header row">
+            <div class="logo">
+                <img src="../../static/images/Contested-Logo.png" alt="Contested Logo" width="500">
             </div>
-            <div class="col-3">
-                <a href="/dashboard" class="btn btn-primary">All Contests</a>
-                <a href="/logout" class="btn btn-primary">Logout</a>
-            </div>
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-item btn btn-nav" id="nav-ac"
+                        onmouseover="this.style.background = '#e323bf'"
+                        onmouseleave="this.style.background = '#ffffff'">All Contests</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-item btn btn-nav" onmouseover="this.style.background = '#e323bf'"
+                        onmouseleave="this.style.background = '#ffffff'">Logout</a>
+                </li>
+            </ul>
         </div>
-        <div class="page-header">
-            <h1>{{contest.name}} Results</h1>
-            <h5>Hosted By: {{contest.first_name}}</h5>
-            <p>{{contest.description}}</p>
-            <a href="/contests/{{contest.id}}/open">Reopen Contest</a>
-        </div>
-        <div class="d-flex">
-            <div class="col-9 p-2" id="contest-table-div">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Entry Name</th>
-                            <th>By</th>
-                            <th>Average Rating</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for entry in items %}
-                        <tr>
-                            <td>{{entry.name}}</td>
-                            <td>{{entry.first_name}}</td>
-                            <td>
-                                {% if entry.average != -1 %}
-                                {{entry.average}}
-                                {% else %}
-                                No Ratings
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+        <div class="main-result">
+            <div class="result-header">
+                <div class="result-header-content">
+                    <h1>{{contest.name}} Results</h1>
+                    <h5>Hosted By: {{contest.first_name}}</h5>
+                    <p>{{contest.description}}</p>
+                    <a href="/contests/{{contest.id}}/open" class="btn btn-edit">Reopen Contest</a>
+                </div>
             </div>
+            <div class="results d-flex justify-content-center">
+                <div class="col-8 p-2 contest-table-div" id="contest-table">
+                    <table class="table table-light table-striped table-responsive results-table">
+                        <thead>
+                            <tr>
+                                <th>Entry Name</th>
+                                <th>By</th>
+                                <th>Average Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in items %}
+                            <tr>
+                                <td>{{entry.name}}</td>
+                                <td>{{entry.first_name}}</td>
+                                <td>
+                                    {% if entry.average != -1 %}
+                                    {{entry.average}}
+                                    {% else %}
+                                    No Ratings
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 </body>
