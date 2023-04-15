@@ -67,8 +67,12 @@ def close_contest(contest_id):
             "isOpen": 0,
             "id": contest_id
         }
-        contest.Contest.change_contest_status(data)
-        return redirect(f'/contests/{contest_id}/items')
+        con = contest.Contest.get_one_contest(contest_id)
+        if session["user_id"] == con["user_id"]:
+            contest.Contest.change_contest_status(data)
+            return redirect(f'/contests/{contest_id}/items')
+        else:
+            return "404 Error"
     else:
         return redirect('/')
 
@@ -79,8 +83,12 @@ def open_contest(contest_id):
             "isOpen": 1,
             "id": contest_id
         }
-        contest.Contest.change_contest_status(data)
-        return redirect(f'/contests/{contest_id}/items')
+        con = contest.Contest.get_one_contest(contest_id)
+        if session["user_id"] == con["user_id"]:
+            contest.Contest.change_contest_status(data)
+            return redirect(f'/contests/{contest_id}/items')
+        else:
+            return "404 Error"
     else:
         return redirect('/')
 

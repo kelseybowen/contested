@@ -39,12 +39,14 @@
                     <h1>{{contest.name}}</h1>
                     <h5>Hosted By: {{contest.first_name}}</h5>
                     <p>{{contest.description}}</p>
-                    {% if session["user_id"] == contest.user_id and contest.isOpen %}
                     <div class="cd-header-btns">
+                        {% if session["user_id"] == contest.user_id and contest.isOpen %}
                         <a class="btn btn-edit" href="/contests/{{contest.id}}/edit">Edit Contest</a>
                         <a class="btn btn-delete" href="/contests/{{contest.id}}/close">Close Contest</a>
+                        {% elif session["user_id"] == contest.user_id and not contest.isOpen %}
+                        <a href="/contests/{{contest.id}}/open" class="btn btn-edit">Reopen Contest</a>
+                        {% endif %}
                     </div>
-                    {% endif %}
                 </div>
 
                 {% if contest.isOpen %}

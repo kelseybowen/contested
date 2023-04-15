@@ -7,7 +7,11 @@ import math
 def view_contest_items(contest_id):
     if "user_id" in session:
         contest_info = contest.Contest.get_one_contest(contest_id)
-        contest_items = item.Item.get_all_items_in_single_contest(contest_id)
+        if contest_info:
+            contest_items = item.Item.get_all_items_in_single_contest(contest_id)
+        else:
+            return redirect('/dashboard')
+        
         if not contest_items:
             return render_template("contest_detail.html", contest=contest_info)
         if contest_info["isOpen"]:

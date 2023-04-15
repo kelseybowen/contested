@@ -30,7 +30,10 @@ class Contest:
             "id": data
         }
         result = connectToMySQL(cls.db).query_db(query, data)
-        return result[0]
+        if len(result) > 0:
+            return result[0]
+        else:
+            return None
     
     @classmethod
     def save_contest(cls,data):
