@@ -13,17 +13,21 @@
 
 <body>
     <div class="container p-3">
-        <div class="dashboard-header d-flex justify-content-evenly align-items-center">
+        <div class="dashboard-header d-flex justify-content-center align-items-center">
             <div class="logo">
                 <img src="../static/images/Contested-Logo.png" alt="Contested Logo" width="500">
             </div>
             <div>
-                <a href="/logout" class="btn logout-btn" onmouseover="this.style.background = '#ffffff'" onmouseleave="this.style.background = '#e323bf'">Logout</a>
+                {% if user_id not in session %}
+                <div class="d-flex"><a href="/logout" class="btn return-btn" >Return to Home</a></div>
+                {% else %}
+                <div class="d-flex"><a href="/logout" class="btn logout-btn" >Logout</a></div>
+                {% endif %}
             </div>
         </div>
 
         <div class="dashboard-main d-flex justify-content-evenly">
-            <div class="dashboard-component text-center col-3">
+            <div class="dashboard-component text-center col-5">
                 <h1>All Contests</h1>
                 <div class="list-group">
                     {% for contest in all_contests %}
@@ -33,7 +37,7 @@
                 </div>
             </div>
 
-            <div class="dashboard-component text-center col-3 mx-2 p-3">
+            <div class="dashboard-component text-center col-5 mx-2 p-3">
                 <h1>Add Contest</h1>
                 {% with messages = get_flashed_messages(category_filter=["contest"]) %}
                 {% if messages %}
@@ -49,13 +53,12 @@
                         <input class="form-control" name="contest_name" type="text" value="{{session.contest_name}}">
                     </div>
                     <div class="form-group my-1">
-                        <label class="form-label add-contest-label" for="contest_description" >Description</label>
-                        <input class="form-control" name="contest_description" type="text"
-                            value="{{session.contest_description}}">
+                        <label class="form-label add-contest-label" for="contest_description">Description</label>
+                        <input class="form-control" name="contest_description" type="text" value="{{session.contest_description}}">
                     </div>
                     <div class="text-center my-3">
-                        <button class="btn dashboard-btn"  onmouseover="this.style.background = '#ffffff'" onmouseleave="this.style.background = '#e323bf'">Submit</button>
-                        <a href="/dashboard" class="btn dashboard-btn"  onmouseover="this.style.background = '#ffffff'" onmouseleave="this.style.background = '#e323bf'">Cancel</a>
+                        <button class="btn dashboard-btn" >Submit</button>
+                        <a href="/dashboard" class="btn dashboard-btn">Cancel</a>
                     </div>
                 </form>
             </div>

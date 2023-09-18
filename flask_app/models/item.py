@@ -24,20 +24,19 @@ class Item:
         return items
         
     @classmethod
-    def get_all_items_in_single_contest(cls, data):
+    def get_all_items_in_single_contest(cls, contest_id):
         query = "SELECT * FROM items AS i LEFT JOIN (SELECT * FROM ratings WHERE ratings.user_id = %(user_id)s) AS r ON i.id = r.item_id JOIN users AS u ON u.id = i.owner_id WHERE contest_id = %(contest_id)s;"
         data = {
-            "contest_id": data,
+            "contest_id": contest_id,
             "user_id": session["user_id"]
         }
         result = connectToMySQL(cls.db).query_db(query, data)
+        print(f"RESULT FROM ITEM.PY 34 = {result}")
         items = []
         if result:
             for entry in result:
                 items.append(entry)
             return items
-        else:
-            pass
     
     @classmethod
     def get_one_item(cls, data):

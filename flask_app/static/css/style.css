@@ -1,51 +1,22 @@
 :root {
-    --yellow: rgb(253,254,0);
+    --yellow: #fdfe00;
     --pink: #e323bf;
-    --teal: rgb(9,216,242);
-    --purple: rgb(114,35,223);
+    --teal: #09d8f2;
+    --purple: #7223df;
+    --dark: #333333;
 }
 
 * {
     font-family: Arial, Helvetica, sans-serif;
+    /* border: 1px black solid; */
 }
 
 /* ------ INDEX ------- */
-
 body {
-    background-image: url("../images/confetti.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: var(--dark);
 }
-
-.main-content {
+.index-main {
     justify-content: center;
-    padding: 30px;
-}
-
-.index-outer-container {
-    background-color: rgba(9,216,242, 0.8);
-    margin: 10px;
-    color: white;
-}
-
-.left-index {
-    border-radius: 210px;
-    border: var(--teal) 6px solid;
-    width: 420px;
-    height: 420px;
-    padding: 20px;
-}
-
-.right-index {
-    border-radius: 70px;
-    border: var(--teal) 6px solid;
-    height: 250px;
-    width: 250px;
-    padding: 10px;
-}
-
-.index-inner-container {
-    color: white;
 }
 
 .reg-form {
@@ -56,11 +27,14 @@ body {
     text-align: center;
 }
 
-.reg-btn, .login-btn, .btn {
+.reg-btn, .login-btn, .btn, .return-btn, .logout-btn, .dashboard-btn {
     background-color: var(--pink);
     color: white;
-    justify-content: center;
-    margin-top: 10px;
+    margin: 10px;
+}
+
+.reg-btn:hover, .login-btn:hover, .btn:hover, .return-btn:hover, .logout-btn:hover, .dashboard-btn:hover {
+    background-color: var(--yellow);
 }
 
 .error {
@@ -80,11 +54,6 @@ body {
 
 h1 {
     color: white;
-}
-
-.logout-btn {
-    background-color: var(--pink);
-    border: white 3px solid;
 }
 
 .list-group-item {

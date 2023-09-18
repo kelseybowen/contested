@@ -7,10 +7,12 @@ class Rating:
     def __init__(self, data):
         self.id = data['id']
         self.score = data['score']
+        self.notes = data['notes']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
         self.user_id = data['user_id']
         self.item_id = data['item_id']
+        self.category_id = data['category_id']
     
     @classmethod
     def get_user_rating_for_item(cls, data):
@@ -31,7 +33,7 @@ class Rating:
     
     @classmethod
     def save_rating(cls, data):
-        query = "INSERT INTO ratings (score, user_id, item_id) VALUES (%(score)s, %(user_id)s, %(item_id)s);"
+        query = "INSERT INTO ratings (score, user_id, item_id, created_at, updated_at) VALUES (%(score)s, %(user_id)s, %(item_id)s, NOW(), NOW());"
         result = connectToMySQL(cls.db).query_db(query, data)
         return result
     

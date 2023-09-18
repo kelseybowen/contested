@@ -19,8 +19,9 @@ class Contest:
         query = "SELECT * FROM contests;"
         results = connectToMySQL(cls.db).query_db(query)
         contests = []
-        for contest in results:
-            contests.append(cls(contest))
+        if results:
+            for contest in results:
+                contests.append(cls(contest))
         return contests
     
     @classmethod
@@ -66,6 +67,9 @@ class Contest:
     @staticmethod
     def validate_contest(data):
         contest_valid = True
+        # if data['user_id'] == "guest":
+        #     flash("Login required for this action.")
+        #     return False
         if len(data['name']) < 3:
             flash("Contest Name must be at least 3 characters", 'contest')
             contest_valid = False

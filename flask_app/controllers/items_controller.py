@@ -1,6 +1,6 @@
 from flask_app import app
 from flask import render_template, request, redirect, session
-from flask_app.models import item, contest
+from flask_app.models import item, contest, category
 import math
 
 @app.route('/contests/<int:contest_id>/items')
@@ -9,13 +9,14 @@ def view_contest_items(contest_id):
         contest_info = contest.Contest.get_one_contest(contest_id)
         if contest_info:
             contest_items = item.Item.get_all_items_in_single_contest(contest_id)
+            categories = category.Category.get_all_categories_for_contest(contest_id)
         else:
             return redirect('/dashboard')
         
         if not contest_items:
-            return render_template("contest_detail.html", contest=contest_info)
+            return render_template("contest_detail.html", contest=contest_info, categories=categories)
         if contest_info["isOpen"]:
-            return render_template("contest_detail.html", items=contest_items, contest=contest_info)
+            return render_template("contest_detail.html", items=contest_items, contest=contest_info, categories=categories)
         else:
             for result in contest_items:
                 data = {
@@ -24,7 +25,7 @@ def view_contest_items(contest_id):
                 }
                 result["average"] = math.ceil(item.Item.get_average_rating_for_item(data)*100)/100
             items = sorted(contest_items, key=lambda i: i["average"], reverse=True)
-            return render_template("contest_results.html", contest=contest_info, items=items)
+            return render_template("contest_results.html", contest=contest_info, items=items, categories=categories)
     else:
         return redirect("/")
     
